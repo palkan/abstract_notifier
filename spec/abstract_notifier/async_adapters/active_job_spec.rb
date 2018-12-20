@@ -10,7 +10,7 @@ describe "ActiveJob adapter", skip: !defined?(ActiveJob) do
     AbstractNotifier::TestNotifier =
       Class.new(AbstractNotifier::Base) do
         self.driver = TestDriver
-        self.job_adapter = :active_job
+        self.async_adapter = :active_job
 
         def tested(title, text)
           notification(
@@ -28,20 +28,20 @@ describe "ActiveJob adapter", skip: !defined?(ActiveJob) do
   describe "#enqueue" do
     specify do
       expect { notifier_class.tested("a", "b").notify_later }.
-        to have_enqueued_job(AbstractNotifier::JobAdapters::ActiveJob::DeliveryJob).
+        to have_enqueued_job(AbstractNotifier::AsyncAdapters::ActiveJob::DeliveryJob).
         with("AbstractNotifier::TestNotifier", body: "Notification a: b").
         on_queue("notifiers")
     end
 
     context "when queue specified" do
       before do
-        notifier_class.job_adapter = :active_job, {queue: "test"}
+        notifier_class.async_adapter = :active_job, {queue: "test"}
       end
 
       specify do
         expect { notifier_class.tested("a", "b").notify_later }.
           to have_enqueued_job(
-            AbstractNotifier::JobAdapters::ActiveJob::DeliveryJob
+            AbstractNotifier::AsyncAdapters::ActiveJob::DeliveryJob
           ).
           with("AbstractNotifier::TestNotifier", body: "Notification a: b").
           on_queue("test")
@@ -54,7 +54,7 @@ describe "ActiveJob adapter", skip: !defined?(ActiveJob) do
       end
 
       before do
-        notifier_class.job_adapter = :active_job, {job: job_class}
+        notifier_class.async_adapter = :active_job, {job: job_class}
       end
 
       specify do

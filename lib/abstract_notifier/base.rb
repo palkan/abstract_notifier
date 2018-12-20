@@ -14,12 +14,12 @@ module AbstractNotifier
 
     def notify_later
       return if AbstractNotifier.noop?
-      owner.job_adapter.enqueue owner, payload
+      owner.async_adapter.enqueue owner, payload
     end
 
     def notify_now
       return if AbstractNotifier.noop?
-      owner.driver.send_notification(payload)
+      owner.driver.call(payload)
     end
   end
 
@@ -42,19 +42,19 @@ module AbstractNotifier
           end
       end
 
-      def job_adapter=(args)
+      def async_adapter=(args)
         adapter, options = Array(args)
-        @job_adapter = JobAdapters.lookup(adapter, options)
+        @async_adapter = AsyncAdapters.lookup(adapter, options)
       end
 
-      def job_adapter
-        return @job_adapter if instance_variable_defined?(:@job_adapter)
+      def async_adapter
+        return @async_adapter if instance_variable_defined?(:@async_adapter)
 
-        @job_adapter =
-          if superclass.respond_to?(:job_adapter)
-            superclass.job_adapter
+        @async_adapter =
+          if superclass.respond_to?(:async_adapter)
+            superclass.async_adapter
           else
-            AbstractNotifier.job_adapter
+            AbstractNotifier.async_adapter
           end
       end
 

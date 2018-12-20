@@ -33,7 +33,7 @@ module AbstractNotifier
 
   class << self
     attr_reader :delivery_mode
-    attr_reader :job_adapter
+    attr_reader :async_adapter
 
     def delivery_mode=(val)
       unless DELIVERY_MODES.include?(val)
@@ -44,9 +44,9 @@ module AbstractNotifier
       @delivery_mode = val
     end
 
-    def job_adapter=(args)
+    def async_adapter=(args)
       adapter, options = Array(args)
-      @job_adapter = JobAdapters.lookup(adapter, options)
+      @async_adapter = AsyncAdapters.lookup(adapter, options)
     end
 
     def noop?
@@ -67,8 +67,8 @@ module AbstractNotifier
 end
 
 require "abstract_notifier/base"
-require "abstract_notifier/job_adapters"
+require "abstract_notifier/async_adapters"
 
-require "abstract_notifier/job_adapters/active_job" if defined?(ActiveJob)
+require "abstract_notifier/async_adapters/active_job" if defined?(ActiveJob)
 
 require "abstract_notifier/testing" if ENV["RACK_ENV"] == "test" || ENV["RAILS_ENV"] == "test"

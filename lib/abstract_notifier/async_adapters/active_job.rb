@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module AbstractNotifier
-  module JobAdapters
+  module AsyncAdapters
     class ActiveJob
       class DeliveryJob < ::ActiveJob::Base
         def perform(notifier_class, payload)
@@ -24,4 +24,4 @@ module AbstractNotifier
   end
 end
 
-AbstractNotifier.job_adapter ||= :active_job
+AbstractNotifier.async_adapter ||= :active_job

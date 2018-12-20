@@ -30,7 +30,7 @@ class TestJobAdapter
   end
 end
 
-AbstractNotifier.job_adapter = TestJobAdapter.new
+AbstractNotifier.async_adapter = TestJobAdapter.new
 
 class TestDriver
   class << self
@@ -38,7 +38,7 @@ class TestDriver
       @deliveries ||= []
     end
 
-    def send_notification(payload)
+    def call(payload)
       deliveries << payload
     end
   end
@@ -68,7 +68,7 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do
-    AbstractNotifier.job_adapter.clear
+    AbstractNotifier.async_adapter.clear
     TestDriver.deliveries.clear
   end
 end

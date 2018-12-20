@@ -32,9 +32,9 @@ describe AbstractNotifier::Base do
 
   specify "#notify_later" do
     expect { notifier_class.tested("a", "b").notify_later }.
-      to change { AbstractNotifier.job_adapter.jobs.size }.by(1)
+      to change { AbstractNotifier.async_adapter.jobs.size }.by(1)
 
-    notifier, payload = AbstractNotifier.job_adapter.jobs.last
+    notifier, payload = AbstractNotifier.async_adapter.jobs.last
 
     expect(notifier).to be_eql(notifier_class)
     expect(payload).to eq(body: "Notification a: b")
@@ -91,10 +91,10 @@ describe AbstractNotifier::Base do
     end
 
     specify do
-      allow(fake_driver).to receive(:send_notification)
+      allow(fake_driver).to receive(:call)
       notifier_class.with(identity: "qwerty123", tag: "all").tested("fake!").notify_now
       expect(fake_driver).to have_received(
-        :send_notification
+        :call
       ).with(body: "Notification: fake!", identity: "qwerty123", tag: "all")
     end
   end
