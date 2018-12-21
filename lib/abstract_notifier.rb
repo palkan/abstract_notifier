@@ -72,3 +72,7 @@ require "abstract_notifier/async_adapters"
 require "abstract_notifier/async_adapters/active_job" if defined?(ActiveJob)
 
 require "abstract_notifier/testing" if ENV["RACK_ENV"] == "test" || ENV["RAILS_ENV"] == "test"
+
+if defined?(ActiveDelivery::Base) && defined?(ActiveDelivery::Lines::Base)
+  require "active_delivery/lines/notifier"
+end

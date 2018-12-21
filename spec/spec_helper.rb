@@ -4,6 +4,11 @@ ENV["RACK_ENV"] = "test"
 
 require "bundler/setup"
 
+begin
+  require "pry-byebug"
+rescue LoadError
+end
+
 unless ENV["NO_RAILS"]
   require "rails"
   require "action_controller/railtie"
@@ -14,6 +19,7 @@ unless ENV["NO_RAILS"]
   ActiveJob::Base.logger = Logger.new(IO::NULL)
 end
 
+require "active_delivery"
 require "abstract_notifier"
 
 class TestJobAdapter

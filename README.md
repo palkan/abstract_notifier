@@ -157,7 +157,23 @@ expect { EventsNotifier.with(profile: profile).canceled(event).notify_later}.
 
 ## Related projects
 
-- [`active_delivery`](https://github.com/palkan/active_delivery) – next-level abstraction which allows to combine multiple notification channels in one place.
+### [`active_delivery`](https://github.com/palkan/active_delivery)
+
+Active Delivery is the next-level abstraction which allows to combine multiple notification channels in one place.
+
+Abstract Notifier provides a _notifier_ line for Active Delivery:
+
+```ruby
+class ApplicationDelivery < ActiveDelivery::Base
+  # Add notifier line to you delivery
+  register_line :notifier, ActiveDelivery::Lines::Notifier,
+                # you may provide a resolver, which infers notifier class
+                # from delivery name (resolver is a callable).
+                rsolver: ->(name) { resolve_somehow(name) }
+end
+```
+
+**NOTE:** we automatically add `:notifier` line with `"*Delivery" -> *Notifier` resolution mechanism if `#safe_constantize` method is defined for String, i.e. you don't have to configure the default notifier line when running Rails.
 
 ## Contributing
 

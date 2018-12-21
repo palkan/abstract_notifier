@@ -3,6 +3,7 @@ source "https://rubygems.org"
 # Specify your gem's dependencies in abstract_notifier.gemspec
 gemspec
 
+gem "pry-byebug"
 gem "rspec-rails"
 
 local_gemfile = File.join(__dir__, "Gemfile.local")

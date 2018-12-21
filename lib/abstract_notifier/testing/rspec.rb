@@ -4,7 +4,7 @@ module AbstractNotifier
   class HaveSentNotification < RSpec::Matchers::BuiltIn::BaseMatcher
     attr_reader :payload
 
-    def initialize(payload)
+    def initialize(payload = nil)
       @payload = payload
       set_expected_number(:exactly, 1)
     end
@@ -55,7 +55,7 @@ module AbstractNotifier
 
       @matching_deliveries, @unmatching_deliveries =
         in_block_deliveries.partition do |actual_payload|
-          payload === actual_payload
+          payload.nil? || (payload === actual_payload)
         end
 
       @matching_count = @matching_deliveries.size
