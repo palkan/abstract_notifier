@@ -5,7 +5,7 @@
 
 Abstract Notifier is a tool which allows you to describe/model any text-based notifications (such as Push Notifications) the same way Action Mailer does for email notifications.
 
-Abstract Notifier (as the name states) doesn't provide any specific implementaion for sending notifications. Instead if provide tools to organize your notification-specific code and make it easily testable.
+Abstract Notifier (as the name states) doesn't provide any specific implementation for sending notifications. Instead, it offers tools to organize your notification-specific code and make it easily testable.
 
 <a href="https://evilmartians.com/?utm_source=action_policy">
 <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg" alt="Sponsored by Evil Martians" width="236" height="54"></a>
@@ -31,7 +31,7 @@ $ bundle
 
 ## Usage
 
-Notifer class is very similar to Action Mailer mailer class with `notification` method instead of a `mail` method:
+Notifier class is very similar to Action Mailer mailer class with `notification` method instead of a `mail` method:
 
 ```ruby
 class EventsNotifier < ApplicationNotifier
@@ -60,7 +60,7 @@ class ApplicationNotifier < AbstractNotifier::Base
 end
 ```
 
-Driver could be any callbable Ruby object (i.e. anything that responds to `#call`).
+A driver could be any callable Ruby object (i.e., anything that responds to `#call`).
 
 That's a developer responsibility to implement the driver (we do not provide any drivers out-of-the-box; at least yet).
 
@@ -89,7 +89,7 @@ To use `notify_later` you **must** configure `async_adapter`.
 
 We provide Active Job adapter out-of-the-box and use it if Active Job is present.
 
-Custom async adapter must implement `enqueue` method:
+The custom async adapter must implement `enqueue` method:
 
 ```ruby
 class MyAsyncAdapter
@@ -99,7 +99,7 @@ class MyAsyncAdapter
 
   # `enqueue` method accepts notifier class and notification
   # payload.
-  # We need to know notifier class to use it's driver.
+  # We need to know notifier class to use its driver.
   def enqueue(notifier_class, payload)
     # your implementation here
   end
@@ -159,7 +159,7 @@ expect { EventsNotifier.with(profile: profile).canceled(event).notify_later}.
 
 ### [`active_delivery`](https://github.com/palkan/active_delivery)
 
-Active Delivery is the next-level abstraction which allows to combine multiple notification channels in one place.
+Active Delivery is the next-level abstraction which allows combining multiple notification channels in one place.
 
 Abstract Notifier provides a _notifier_ line for Active Delivery:
 
@@ -169,11 +169,11 @@ class ApplicationDelivery < ActiveDelivery::Base
   register_line :notifier, ActiveDelivery::Lines::Notifier,
                 # you may provide a resolver, which infers notifier class
                 # from delivery name (resolver is a callable).
-                rsolver: ->(name) { resolve_somehow(name) }
+                resolver: ->(name) { resolve_somehow(name) }
 end
 ```
 
-**NOTE:** we automatically add `:notifier` line with `"*Delivery" -> *Notifier` resolution mechanism if `#safe_constantize` method is defined for String, i.e. you don't have to configure the default notifier line when running Rails.
+**NOTE:** we automatically add `:notifier` line with `"*Delivery" -> *Notifier` resolution mechanism if `#safe_constantize` method is defined for String, i.e., you don't have to configure the default notifier line when running Rails.
 
 ## Contributing
 
