@@ -25,9 +25,26 @@ module AbstractNotifier
 
   # Base class for notifiers
   class Base
-    class << self
-      alias with new
+    class ParamsProxy
+      attr_reader :notifier_class, :params
 
+      def initialize(notifier_class, params)
+        @notifier_class = notifier_class
+        @params = params
+      end
+
+      # rubocop:disable Style/MethodMissingSuper
+      def method_missing(method_name, *args)
+        notifier_class.new(method_name, params).public_send(method_name, *args)
+      end
+      # rubocop:enable Style/MethodMissingSuper
+
+      def respond_to_missing?(*args)
+        notifier_class.respond_to_missing?(*args)
+      end
+    end
+
+    class << self
       attr_writer :driver
 
       def driver
@@ -58,12 +75,49 @@ module AbstractNotifier
           end
       end
 
+      def default(method_name = nil, **hargs)
+        return @defaults_generator = Proc.new if block_given?
+
+        return @defaults_generator = proc { send(method_name) } unless method_name.nil?
+
+        @default_params =
+          if superclass.respond_to?(:default_params)
+            superclass.default_params.merge(hargs).freeze
+          else
+            hargs.freeze
+          end
+      end
+
+      def defaults_generator
+        return @defaults_generator if instance_variable_defined?(:@defaults_generator)
+
+        @defaults_generator =
+          if superclass.respond_to?(:defaults_generator)
+            superclass.defaults_generator
+          end
+      end
+
+      def default_params
+        return @default_params if instance_variable_defined?(:@default_params)
+
+        @default_params =
+          if superclass.respond_to?(:default_params)
+            superclass.default_params.dup
+          else
+            {}
+          end
+      end
+
       def method_missing(method_name, *args)
         if action_methods.include?(method_name.to_s)
-          new.public_send(method_name, *args)
+          new(method_name).public_send(method_name, *args)
         else
           super
         end
+      end
+
+      def with(params)
+        ParamsProxy.new(self, params)
       end
 
       def respond_to_missing?(method_name, _include_private = false)
@@ -87,16 +141,34 @@ module AbstractNotifier
       end
     end
 
-    attr_reader :params
+    attr_reader :params, :notification_name
 
-    def initialize(**params)
+    def initialize(notification_name, **params)
+      @notification_name = notification_name
       @params = params.freeze
     end
 
     def notification(**payload)
+      merge_defaults!(payload)
+
       raise ArgumentError, "Notification body must be present" if
         payload[:body].nil? || payload[:body].empty?
       Notification.new(self.class, payload)
+    end
+
+    private
+
+    def merge_defaults!(payload)
+      defaults =
+        if self.class.defaults_generator
+          instance_exec(&self.class.defaults_generator)
+        else
+          self.class.default_params
+        end
+
+      defaults.each do |k, v|
+        payload[k] = v unless payload.key?(k)
+      end
     end
   end
 end

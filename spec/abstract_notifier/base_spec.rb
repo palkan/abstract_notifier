@@ -66,6 +66,107 @@ describe AbstractNotifier::Base do
     end
   end
 
+  describe ".default" do
+    context "static defaults" do
+      let(:notifier_class) do
+        AbstractNotifier::TestNotifier =
+          Class.new(described_class) do
+            self.driver = TestDriver
+
+            default action: "TESTO"
+
+            def tested(options = {})
+              notification(options)
+            end
+          end
+      end
+
+      it "adds defaults to notification if missing" do
+        expect { notifier_class.tested(body: "how are you?", to: "123-123").notify_now }.
+          to change { notifier_class.driver.deliveries.size }.by(1)
+
+        expect(last_delivery).to eq(body: "how are you?", to: "123-123", action: "TESTO")
+      end
+
+      it "doesn't overwrite if key is provided" do
+        expect { notifier_class.tested(body: "how are you?", to: "123-123", action: "OTHER").notify_now }.
+          to change { notifier_class.driver.deliveries.size }.by(1)
+
+        expect(last_delivery).to eq(body: "how are you?", to: "123-123", action: "OTHER")
+      end
+    end
+
+    context "dynamic defaults as method_name" do
+      let(:notifier_class) do
+        AbstractNotifier::TestNotifier =
+          Class.new(described_class) do
+            self.driver = TestDriver
+
+            default :set_defaults
+
+            def tested(options = {})
+              notification(options)
+            end
+
+            private
+
+            def set_defaults
+              {
+                action: notification_name.to_s.upcase
+              }
+            end
+          end
+      end
+
+      it "adds defaults to notification if missing" do
+        expect { notifier_class.tested(body: "how are you?", to: "123-123").notify_now }.
+          to change { notifier_class.driver.deliveries.size }.by(1)
+
+        expect(last_delivery).to eq(body: "how are you?", to: "123-123", action: "TESTED")
+      end
+
+      it "doesn't overwrite if key is provided" do
+        expect { notifier_class.tested(body: "how are you?", to: "123-123", action: "OTHER").notify_now }.
+          to change { notifier_class.driver.deliveries.size }.by(1)
+
+        expect(last_delivery).to eq(body: "how are you?", to: "123-123", action: "OTHER")
+      end
+    end
+
+    context "dynamic defaults as block" do
+      let(:notifier_class) do
+        AbstractNotifier::TestNotifier =
+          Class.new(described_class) do
+            self.driver = TestDriver
+
+            default do
+              {
+                action: notification_name.to_s.upcase
+              }
+            end
+
+            def tested(options = {})
+              notification(**options)
+            end
+          end
+      end
+
+      it "adds defaults to notification if missing" do
+        expect { notifier_class.tested(body: "how are you?", to: "123-123").notify_now }.
+          to change { notifier_class.driver.deliveries.size }.by(1)
+
+        expect(last_delivery).to eq(body: "how are you?", to: "123-123", action: "TESTED")
+      end
+
+      it "doesn't overwrite if key is provided" do
+        expect { notifier_class.tested(body: "how are you?", to: "123-123", action: "OTHER").notify_now }.
+          to change { notifier_class.driver.deliveries.size }.by(1)
+
+        expect(last_delivery).to eq(body: "how are you?", to: "123-123", action: "OTHER")
+      end
+    end
+  end
+
   describe ".driver=" do
     let(:notifier_class) do
       AbstractNotifier::TestNotifier =

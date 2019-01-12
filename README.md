@@ -83,6 +83,40 @@ end
 EventsNotifier.with(profile: profile).canceled(event).notify_later
 ```
 
+### Defaults
+
+You can specify default notification fields at a class level:
+
+```ruby
+class EventsNotifier < ApplicationNotifier
+  # `category` field will be added to the notification
+  # if missing
+  default category: "EVENTS"
+
+  # ...
+end
+```
+
+**NOTE**: when subclassing notifiers, default parameters are merged.
+
+You can also specify a block or a method name as the default params _generator_.
+This could be useful in combination with the `#notification_name` method to generate dynamic payloads:
+
+```ruby
+class ApplicationNotifier < AbstractNofitier::Base
+  default :build_defaults_from_locale
+
+
+  private
+
+  def build_defaults_from_locale
+    {
+      subject: I18n.t(notification_name, scope: [:notifiers, self.class.name.underscore])
+    }
+  end
+end
+```
+
 ### Background jobs / async notifications
 
 To use `notify_later` you **must** configure `async_adapter`.
