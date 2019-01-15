@@ -4,7 +4,6 @@ source "https://rubygems.org"
 gemspec
 
 gem "pry-byebug"
-gem "rspec-rails"
 
 local_gemfile = File.join(__dir__, "Gemfile.local")
 
