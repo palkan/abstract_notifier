@@ -7,7 +7,7 @@ Abstract Notifier is a tool which allows you to describe/model any text-based no
 
 Abstract Notifier (as the name states) doesn't provide any specific implementation for sending notifications. Instead, it offers tools to organize your notification-specific code and make it easily testable.
 
-📖 Read the introduction post: ["Crafting user notifications in Rails with Active Delivery"](https://dev.to/evilmartians/crafting-user-notifications-in-rails-with-active-delivery-5cn6")
+📖 Read the introduction post: ["Crafting user notifications in Rails with Active Delivery"](https://dev.to/evilmartians/crafting-user-notifications-in-rails-with-active-delivery-5cn6)
 
 <a href="https://evilmartians.com/?utm_source=action_policy">
 <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg" alt="Sponsored by Evil Martians" width="236" height="54"></a>
