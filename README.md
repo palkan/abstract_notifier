@@ -166,10 +166,10 @@ AbstractNotifier.delivery_mode = :test
 # you can make Abstract Notifier no-op.
 #
 # config/environments/development.rb
-ActionNotifier.delivery_mode = :noop
+AbstractNotifier.delivery_mode = :noop
 
 # Default delivery mode is "normal"
-ActionNotifier.delivery_mode = :normal
+AbstractNotifier.delivery_mode = :normal
 ```
 
 **NOTE:** we set `delivery_mode = :test` if `RAILS_ENV` or `RACK_ENV` env variable is equal to "test".
