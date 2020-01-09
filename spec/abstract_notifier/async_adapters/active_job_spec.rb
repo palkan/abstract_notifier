@@ -27,10 +27,10 @@ describe "ActiveJob adapter", skip: !defined?(ActiveJob) do
 
   describe "#enqueue" do
     specify do
-      expect { notifier_class.tested("a", "b").notify_later }.
-        to have_enqueued_job(AbstractNotifier::AsyncAdapters::ActiveJob::DeliveryJob).
-        with("AbstractNotifier::TestNotifier", body: "Notification a: b").
-        on_queue("notifiers")
+      expect { notifier_class.tested("a", "b").notify_later }
+        .to have_enqueued_job(AbstractNotifier::AsyncAdapters::ActiveJob::DeliveryJob)
+        .with("AbstractNotifier::TestNotifier", body: "Notification a: b")
+        .on_queue("notifiers")
     end
 
     context "when queue specified" do
@@ -39,12 +39,12 @@ describe "ActiveJob adapter", skip: !defined?(ActiveJob) do
       end
 
       specify do
-        expect { notifier_class.tested("a", "b").notify_later }.
-          to have_enqueued_job(
+        expect { notifier_class.tested("a", "b").notify_later }
+          .to have_enqueued_job(
             AbstractNotifier::AsyncAdapters::ActiveJob::DeliveryJob
-          ).
-          with("AbstractNotifier::TestNotifier", body: "Notification a: b").
-          on_queue("test")
+          )
+          .with("AbstractNotifier::TestNotifier", body: "Notification a: b")
+          .on_queue("test")
       end
     end
 
@@ -58,10 +58,10 @@ describe "ActiveJob adapter", skip: !defined?(ActiveJob) do
       end
 
       specify do
-        expect { notifier_class.tested("a", "b").notify_later }.
-          to have_enqueued_job(job_class).
-          with("AbstractNotifier::TestNotifier", body: "Notification a: b").
-          on_queue("notifiers")
+        expect { notifier_class.tested("a", "b").notify_later }
+          .to have_enqueued_job(job_class)
+          .with("AbstractNotifier::TestNotifier", body: "Notification a: b")
+          .on_queue("notifiers")
       end
     end
   end
