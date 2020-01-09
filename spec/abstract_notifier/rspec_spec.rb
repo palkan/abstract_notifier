@@ -23,20 +23,20 @@ describe "RSpec matcher" do
 
   describe "#have_sent_notification" do
     specify "success" do
-      expect { notifier_class.tested("a", "b").notify_now }.
-        to have_sent_notification(body: "Notification a: b")
+      expect { notifier_class.tested("a", "b").notify_now }
+        .to have_sent_notification(body: "Notification a: b")
     end
 
     specify "failure" do
       expect do
-        expect { notifier_class.tested("a", "b").notify_now }.
-          to have_sent_notification(body: "Notification a: x")
+        expect { notifier_class.tested("a", "b").notify_now }
+          .to have_sent_notification(body: "Notification a: x")
       end.to raise_error(/to send notification.+exactly once, but/)
     end
 
     specify "composed matchers" do
-      expect { notifier_class.tested("a", "b").notify_now }.
-        to have_sent_notification(a_hash_including(body: /notification/i))
+      expect { notifier_class.tested("a", "b").notify_now }
+        .to have_sent_notification(a_hash_including(body: /notification/i))
     end
 
     context "when delivery_mode is not test" do
@@ -49,8 +49,8 @@ describe "RSpec matcher" do
 
       specify "it raises argument error" do
         expect do
-          expect { notifier_class.tested("a", "b").notify_now }.
-            to have_sent_notification(body: "Notification a: b")
+          expect { notifier_class.tested("a", "b").notify_now }
+            .to have_sent_notification(body: "Notification a: b")
         end.to raise_error(/you can only use have_sent_notification matcher in :test delivery mode/i)
       end
     end
@@ -58,14 +58,14 @@ describe "RSpec matcher" do
 
   describe "#have_enqueued_notification" do
     specify "success" do
-      expect { notifier_class.tested("a", "b").notify_later }.
-        to have_enqueued_notification(body: "Notification a: b")
+      expect { notifier_class.tested("a", "b").notify_later }
+        .to have_enqueued_notification(body: "Notification a: b")
     end
 
     specify "failure" do
       expect do
-        expect { notifier_class.tested("a", "b").notify_now }.
-          to have_enqueued_notification(body: "Notification a: x")
+        expect { notifier_class.tested("a", "b").notify_now }
+          .to have_enqueued_notification(body: "Notification a: x")
       end.to raise_error(/to enqueue notification.+exactly once, but/)
     end
   end

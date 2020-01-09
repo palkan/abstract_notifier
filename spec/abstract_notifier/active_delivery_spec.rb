@@ -44,20 +44,20 @@ describe ActiveDelivery::Lines::Notifier do
   describe ".notify" do
     describe ".notify" do
       it "enqueues notification" do
-        expect { delivery_class.with(user: "Shnur").notify(:do_something, "Magic people voodoo people!") }.
-          to have_enqueued_notification(body: "Magic people voodoo people!", to: "Shnur")
+        expect { delivery_class.with(user: "Shnur").notify(:do_something, "Magic people voodoo people!") }
+          .to have_enqueued_notification(body: "Magic people voodoo people!", to: "Shnur")
       end
 
       it "do nothing when notifier doesn't have provided public method" do
-        expect { delivery_class.notify(:do_nothing) }.
-          not_to have_enqueued_notification
+        expect { delivery_class.notify(:do_nothing) }
+          .not_to have_enqueued_notification
       end
     end
 
     describe ".notify!" do
       it "sends notification" do
-        expect { delivery_class.with(user: "Shnur").notify!(:do_something, "Voyage-voyage!") }.
-          to have_sent_notification(body: "Voyage-voyage!", to: "Shnur")
+        expect { delivery_class.with(user: "Shnur").notify!(:do_something, "Voyage-voyage!") }
+          .to have_sent_notification(body: "Voyage-voyage!", to: "Shnur")
       end
     end
   end

@@ -31,8 +31,8 @@ describe AbstractNotifier::Base do
   end
 
   specify "#notify_later" do
-    expect { notifier_class.tested("a", "b").notify_later }.
-      to change { AbstractNotifier.async_adapter.jobs.size }.by(1)
+    expect { notifier_class.tested("a", "b").notify_later }
+      .to change { AbstractNotifier.async_adapter.jobs.size }.by(1)
 
     notifier, payload = AbstractNotifier.async_adapter.jobs.last
 
@@ -41,8 +41,8 @@ describe AbstractNotifier::Base do
   end
 
   specify "#notify_now" do
-    expect { notifier_class.tested("a", "b").notify_now }.
-      to change { notifier_class.driver.deliveries.size }.by(1)
+    expect { notifier_class.tested("a", "b").notify_now }
+      .to change { notifier_class.driver.deliveries.size }.by(1)
     expect(last_delivery).to eq(body: "Notification a: b")
   end
 
@@ -59,8 +59,8 @@ describe AbstractNotifier::Base do
     end
 
     it "sets params" do
-      expect { notifier_class.with(body: "how are you?", to: "123-123").tested.notify_now }.
-        to change { notifier_class.driver.deliveries.size }.by(1)
+      expect { notifier_class.with(body: "how are you?", to: "123-123").tested.notify_now }
+        .to change { notifier_class.driver.deliveries.size }.by(1)
 
       expect(last_delivery).to eq(body: "how are you?", to: "123-123")
     end
@@ -82,15 +82,15 @@ describe AbstractNotifier::Base do
       end
 
       it "adds defaults to notification if missing" do
-        expect { notifier_class.tested(body: "how are you?", to: "123-123").notify_now }.
-          to change { notifier_class.driver.deliveries.size }.by(1)
+        expect { notifier_class.tested(body: "how are you?", to: "123-123").notify_now }
+          .to change { notifier_class.driver.deliveries.size }.by(1)
 
         expect(last_delivery).to eq(body: "how are you?", to: "123-123", action: "TESTO")
       end
 
       it "doesn't overwrite if key is provided" do
-        expect { notifier_class.tested(body: "how are you?", to: "123-123", action: "OTHER").notify_now }.
-          to change { notifier_class.driver.deliveries.size }.by(1)
+        expect { notifier_class.tested(body: "how are you?", to: "123-123", action: "OTHER").notify_now }
+          .to change { notifier_class.driver.deliveries.size }.by(1)
 
         expect(last_delivery).to eq(body: "how are you?", to: "123-123", action: "OTHER")
       end
@@ -119,15 +119,15 @@ describe AbstractNotifier::Base do
       end
 
       it "adds defaults to notification if missing" do
-        expect { notifier_class.tested(body: "how are you?", to: "123-123").notify_now }.
-          to change { notifier_class.driver.deliveries.size }.by(1)
+        expect { notifier_class.tested(body: "how are you?", to: "123-123").notify_now }
+          .to change { notifier_class.driver.deliveries.size }.by(1)
 
         expect(last_delivery).to eq(body: "how are you?", to: "123-123", action: "TESTED")
       end
 
       it "doesn't overwrite if key is provided" do
-        expect { notifier_class.tested(body: "how are you?", to: "123-123", action: "OTHER").notify_now }.
-          to change { notifier_class.driver.deliveries.size }.by(1)
+        expect { notifier_class.tested(body: "how are you?", to: "123-123", action: "OTHER").notify_now }
+          .to change { notifier_class.driver.deliveries.size }.by(1)
 
         expect(last_delivery).to eq(body: "how are you?", to: "123-123", action: "OTHER")
       end
@@ -152,15 +152,15 @@ describe AbstractNotifier::Base do
       end
 
       it "adds defaults to notification if missing" do
-        expect { notifier_class.tested(body: "how are you?", to: "123-123").notify_now }.
-          to change { notifier_class.driver.deliveries.size }.by(1)
+        expect { notifier_class.tested(body: "how are you?", to: "123-123").notify_now }
+          .to change { notifier_class.driver.deliveries.size }.by(1)
 
         expect(last_delivery).to eq(body: "how are you?", to: "123-123", action: "TESTED")
       end
 
       it "doesn't overwrite if key is provided" do
-        expect { notifier_class.tested(body: "how are you?", to: "123-123", action: "OTHER").notify_now }.
-          to change { notifier_class.driver.deliveries.size }.by(1)
+        expect { notifier_class.tested(body: "how are you?", to: "123-123", action: "OTHER").notify_now }
+          .to change { notifier_class.driver.deliveries.size }.by(1)
 
         expect(last_delivery).to eq(body: "how are you?", to: "123-123", action: "OTHER")
       end
