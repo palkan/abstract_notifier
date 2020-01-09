@@ -129,7 +129,7 @@ module AbstractNotifier
     end
   end
 
-  class HaveEqueuedNotification < HaveSentNotification
+  class HaveEnqueuedNotification < HaveSentNotification
     private
 
     def deliveries
@@ -153,7 +153,7 @@ RSpec.configure do |config|
     end
 
     def have_enqueued_notification(*args)
-      AbstractNotifier::HaveEqueuedNotification.new(*args)
+      AbstractNotifier::HaveEnqueuedNotification.new(*args)
     end
   end)
 end
