@@ -11,9 +11,9 @@ module ActiveDelivery
     class Notifier < ActiveDelivery::Lines::Base
       DEFAULT_RESOLVER = ->(name) { name.gsub(/Delivery$/, "Notifier").safe_constantize }
 
-      def initialize(*)
+      def initialize(**opts)
         super
-        @resolver = options[:resolver]
+        @resolver = opts[:resolver]
       end
 
       def resolve_class(name)

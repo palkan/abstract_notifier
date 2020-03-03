@@ -2,6 +2,8 @@
 
 ## master
 
+- **Support Ruby 2.5+**. ([@palkan][])
+
 ## 0.2.0 (2018-01-11)
 
 - Add class-level defaults. ([@palkan][])

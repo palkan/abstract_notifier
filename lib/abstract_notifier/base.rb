@@ -34,8 +34,12 @@ module AbstractNotifier
       end
 
       # rubocop:disable Style/MethodMissingSuper
-      def method_missing(method_name, *args)
-        notifier_class.new(method_name, params).public_send(method_name, *args)
+      def method_missing(method_name, *args, **kwargs)
+        if kwargs.empty?
+          notifier_class.new(method_name, **params).public_send(method_name, *args)
+        else
+          notifier_class.new(method_name, **params).public_send(method_name, *args, **kwargs)
+        end
       end
       # rubocop:enable Style/MethodMissingSuper
 
@@ -75,8 +79,8 @@ module AbstractNotifier
           end
       end
 
-      def default(method_name = nil, **hargs)
-        return @defaults_generator = Proc.new if block_given?
+      def default(method_name = nil, **hargs, &block)
+        return @defaults_generator = block if block_given?
 
         return @defaults_generator = proc { send(method_name) } unless method_name.nil?
 

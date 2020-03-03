@@ -53,7 +53,7 @@ describe AbstractNotifier::Base do
           self.driver = TestDriver
 
           def tested
-            notification(params)
+            notification(**params)
           end
         end
     end
@@ -76,7 +76,7 @@ describe AbstractNotifier::Base do
             default action: "TESTO"
 
             def tested(options = {})
-              notification(options)
+              notification(**options)
             end
           end
       end
@@ -105,7 +105,7 @@ describe AbstractNotifier::Base do
             default :set_defaults
 
             def tested(options = {})
-              notification(options)
+              notification(**options)
             end
 
             private

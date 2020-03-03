@@ -22,7 +22,7 @@ describe ActiveDelivery::Lines::Notifier do
       class TestDelivery < ActiveDelivery::Base
         if ENV["NO_RAILS"]
           register_line :notifier, ActiveDelivery::Lines::Notifier,
-                        resolver: ->(name) { ::DeliveryTesting.const_get(name.gsub(/Delivery$/, "Notifier")) }
+            resolver: ->(name) { ::DeliveryTesting.const_get(name.gsub(/Delivery$/, "Notifier")) }
         end
       end
     end
