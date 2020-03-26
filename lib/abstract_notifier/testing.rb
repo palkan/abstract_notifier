@@ -45,4 +45,4 @@ end
 
 AbstractNotifier::Notification.prepend AbstractNotifier::Testing::Notification
 
-require "abstract_notifier/testing/rspec" if defined?(RSpec)
+require "abstract_notifier/testing/rspec" if defined?(RSpec::Core)
