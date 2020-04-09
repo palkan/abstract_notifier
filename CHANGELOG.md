@@ -2,6 +2,13 @@
 
 ## master
 
+## 0.3.1 (2020-04-09)
+
+- Fix loading testing utils. ([@brovikov][])
+
+Change the RSpec check to `defined?(RSpec::Core)` to prevent from
+loading testing utils when only `RSpec` module is defined.
+
 ## 0.3.0 (2020-03-02)
 
 - **Drop Ruby 2.4 support**. ([@palkan][])
@@ -17,3 +24,4 @@
 Initial version.
 
 [@palkan]: https://github.com/palkan
+[@brovikov]: https://github.com/brovikov
