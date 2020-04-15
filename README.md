@@ -105,7 +105,7 @@ You can also specify a block or a method name as the default params _generator_.
 This could be useful in combination with the `#notification_name` method to generate dynamic payloads:
 
 ```ruby
-class ApplicationNotifier < AbstractNofitier::Base
+class ApplicationNotifier < AbstractNotifier::Base
   default :build_defaults_from_locale
 
 
