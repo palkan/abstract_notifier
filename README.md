@@ -1,5 +1,5 @@
 [![Gem Version](https://badge.fury.io/rb/abstract_notifier.svg)](https://badge.fury.io/rb/abstract_notifier)
-[![Build Status](https://travis-ci.org/palkan/abstract_notifier.svg?branch=master)](https://travis-ci.org/palkan/abstract_notifier)
+[![Build](https://github.com/palkan/abstract_notifier/workflows/Build/badge.svg)](https://github.com/palkan/abstract_notifier/actions)
 
 # Abstract Notifier
 
@@ -22,7 +22,7 @@ Requirements:
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'abstract_notifier'
+gem "abstract_notifier"
 ```
 
 And then execute:
@@ -108,7 +108,6 @@ This could be useful in combination with the `#notification_name` method to gene
 class ApplicationNotifier < AbstractNotifier::Base
   default :build_defaults_from_locale
 
-
   private
 
   def build_defaults_from_locale
@@ -161,7 +160,6 @@ For test/development purposes there are two special _global_ delivery modes:
 # config/environments/test.rb
 AbstractNotifier.delivery_mode = :test
 
-
 # If you don't want to trigger notifications in development,
 # you can make Abstract Notifier no-op.
 #
@@ -183,14 +181,14 @@ Abstract Notifier provides two convinient RSpec matchers:
 
 ```ruby
 # for testing sync notifications (sent with `notify_now`)
-expect { EventsNotifier.with(profile: profile).canceled(event).notify_now }.
-  to have_sent_notification(identify: '123', body: 'Alarma!')
+expect { EventsNotifier.with(profile: profile).canceled(event).notify_now }
+  .to have_sent_notification(identify: "123", body: "Alarma!")
 
 # for testing async notifications (sent with `notify_later`)
-expect { EventsNotifier.with(profile: profile).canceled(event).notify_later}.
-  to have_enqueued_notification(identify: '123', body: 'Alarma!')
+expect { EventsNotifier.with(profile: profile).canceled(event).notify_later }
+  .to have_enqueued_notification(identify: "123", body: "Alarma!")
 ```
- 
+
 **NOTE:** test mode activated automatically if `RAILS_ENV` or `RACK_ENV` env variable is equal to "test". Otherwise add `require "abstract_notifier/testing/rspec"` to your `spec_helper.rb` / `rails_helper.rb` manually. This is also required if you're using Spring in test environment (e.g. with help of [spring-commands-rspec](https://github.com/jonleighton/spring-commands-rspec)).
 
 ## Related projects
@@ -207,7 +205,7 @@ class ApplicationDelivery < ActiveDelivery::Base
   register_line :notifier, ActiveDelivery::Lines::Notifier,
                 # you may provide a resolver, which infers notifier class
                 # from delivery name (resolver is a callable).
-                resolver: ->(name) { resolve_somehow(name) }
+    resolver: ->(name) { resolve_somehow(name) }
 end
 ```
 

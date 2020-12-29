@@ -9,7 +9,7 @@ begin
 rescue LoadError
 end
 
-unless ENV["NO_RAILS"]
+unless ENV["NO_RAILS"] == "true"
   require "rails"
   require "action_controller/railtie"
   require "active_job/railtie"

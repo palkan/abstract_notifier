@@ -9,11 +9,13 @@ AllCops:
     - 'bin/*'
     - 'tmp/**/*'
     - 'Gemfile'
-    - 'node_modules/**/*'
     - 'vendor/**/*'
     - 'gemfiles/**/*'
+    - 'lib/.rbnext/**/*'
+    - 'lib/generators/**/templates/*.rb'
+    - '.github/**/*'
   DisplayCopNames: true
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 2.7
 
 Standard/SemanticBlocks:
   Enabled: false

@@ -4,7 +4,7 @@ require "spec_helper"
 
 describe ActiveDelivery::Lines::Notifier do
   before do
-    module ::DeliveryTesting
+    module ::DeliveryTesting # rubocop:disable Lint/ConstantDefinitionInBlock
       class TestNotifier < AbstractNotifier::Base
         def do_something(msg)
           notification(
@@ -20,7 +20,7 @@ describe ActiveDelivery::Lines::Notifier do
       end
 
       class TestDelivery < ActiveDelivery::Base
-        if ENV["NO_RAILS"]
+        if ENV["NO_RAILS"] == "true"
           register_line :notifier, ActiveDelivery::Lines::Notifier,
             resolver: ->(name) { ::DeliveryTesting.const_get(name.gsub(/Delivery$/, "Notifier")) }
         end

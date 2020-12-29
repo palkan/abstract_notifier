@@ -80,7 +80,7 @@ module AbstractNotifier
       end
 
       def default(method_name = nil, **hargs, &block)
-        return @defaults_generator = block if block_given?
+        return @defaults_generator = block if block
 
         return @defaults_generator = proc { send(method_name) } unless method_name.nil?
 

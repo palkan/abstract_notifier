@@ -1,0 +1,74 @@
+name: Build
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+
+jobs:
+  rspec:
+    runs-on: ubuntu-latest
+    env:
+      BUNDLE_JOBS: 4
+      BUNDLE_RETRY: 3
+      CI: true
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: ["2.7"]
+        gemfile: ["gemfiles/rails6.gemfile"]
+        bundler: ["2"]
+        norails: ["false"]
+        include:
+        - ruby: "2.5"
+          gemfile: "gemfiles/rails42.gemfile"
+          bundler: "1"
+          norails: "false"
+        - ruby: "2.5"
+          gemfile: "gemfiles/rails5.gemfile"
+          bundler: "2"
+          norails: "false"
+        - ruby: "2.6"
+          gemfile: "gemfiles/rails5.gemfile"
+          bundler: "2"
+          norails: "true"
+        - ruby: "2.6"
+          gemfile: "gemfiles/rails5.gemfile"
+          bundler: "2"
+          norails: "false"
+        - ruby: "2.7"
+          gemfile: "gemfiles/railsmaster.gemfile"
+          bundler: "2"
+          norails: "false"
+        - ruby: "2.7"
+          gemfile: "gemfiles/activedeliverymaster.gemfile"
+          bundler: "2"
+          norails: "false"
+        - ruby: "3.0"
+          gemfile: "gemfiles/rails6.gemfile"
+          bundler: "2"
+          norails: "false"
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v1
+      with:
+        path: /home/runner/bundle
+        key: bundle-${{ matrix.ruby }}-${{ matrix.gemfile }}-${{ hashFiles(matrix.gemfile) }}-${{ hashFiles('**/*.gemspec') }}
+        restore-keys: |
+          bundle-${{ matrix.ruby }}-${{ matrix.gemfile }}-
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        bundler: ${{ matrix.bundler }}
+    - name: Bundle install
+      run: |
+        bundle config path /home/runner/bundle
+        bundle config --global gemfile ${{ matrix.gemfile }}
+        bundle install
+        bundle update
+    - name: Run RSpec
+      env:
+        NORAILS: "${{ matrix.norails }}"
+      run: |
+        bundle exec rspec
