@@ -15,6 +15,7 @@ AllCops:
     - 'lib/generators/**/templates/*.rb'
     - '.github/**/*'
   DisplayCopNames: true
+  SuggestExtensions: false
   TargetRubyVersion: 2.7
 
 Standard/SemanticBlocks:
