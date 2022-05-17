@@ -46,3 +46,4 @@ end
 AbstractNotifier::Notification.prepend AbstractNotifier::Testing::Notification
 
 require "abstract_notifier/testing/rspec" if defined?(RSpec::Core)
+require "abstract_notifier/testing/minitest" if defined?(Minitest::Assertions)
