@@ -189,6 +189,20 @@ expect { EventsNotifier.with(profile: profile).canceled(event).notify_later }
   .to have_enqueued_notification(identify: "123", body: "Alarma!")
 ```
 
+Abstract Notifier provides two convinient minitest assertions:
+
+```ruby
+require 'abstract_notifier/testing/minitest'
+
+assert_delivery identify: "123", body: "Alarma!" do
+  EventsNotifier.with(profile: profile).canceled(event).notify_now
+end
+
+assert_async_delivery identify: "123", body: "Alarma!" do
+  EventsNotifier.with(profile: profile).canceled(event).notify_later
+end
+```
+
 **NOTE:** test mode activated automatically if `RAILS_ENV` or `RACK_ENV` env variable is equal to "test". Otherwise add `require "abstract_notifier/testing/rspec"` to your `spec_helper.rb` / `rails_helper.rb` manually. This is also required if you're using Spring in test environment (e.g. with help of [spring-commands-rspec](https://github.com/jonleighton/spring-commands-rspec)).
 
 ## Related projects
