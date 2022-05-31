@@ -194,12 +194,18 @@ Abstract Notifier provides two convinient minitest assertions:
 ```ruby
 require 'abstract_notifier/testing/minitest'
 
-assert_delivery identify: "123", body: "Alarma!" do
-  EventsNotifier.with(profile: profile).canceled(event).notify_now
-end
+class EventsNotifierTestCase < Minitest::Test
+  include AbstractNotifier::TestHelper
 
-assert_async_delivery identify: "123", body: "Alarma!" do
-  EventsNotifier.with(profile: profile).canceled(event).notify_later
+  test 'canceled' do
+    assert_notifications_sent 1, identify: "123", body: "Alarma!" do
+      EventsNotifier.with(profile: profile).canceled(event).notify_now
+    end
+
+    assert_notifications_enqueued 1, identify: "123", body: "Alarma!" do
+      EventsNotifier.with(profile: profile).canceled(event).notify_later
+    end
+  end
 end
 ```
 
