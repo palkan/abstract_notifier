@@ -2,6 +2,10 @@
 
 ## master
 
+## 0.3.2 (2022-06-02)
+
+- Added Minitest assertions. ([@komagata][])
+
 ## 0.3.1 (2020-04-09)
 
 - Fix loading testing utils. ([@brovikov][])
@@ -25,3 +29,4 @@ Initial version.
 
 [@palkan]: https://github.com/palkan
 [@brovikov]: https://github.com/brovikov
+[@komagata]: https://github.com/komagata
