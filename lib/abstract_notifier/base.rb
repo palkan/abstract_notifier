@@ -19,7 +19,7 @@ module AbstractNotifier
 
     def notify_now
       return if AbstractNotifier.noop?
-      owner.driver.call(payload)
+      owner.driver.call(**payload)
     end
   end
 
