@@ -13,7 +13,7 @@ Abstract Notifier (as the name states) doesn't provide any specific implementati
 <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg" alt="Sponsored by Evil Martians" width="236" height="54"></a>
 
 Requirements:
-- Ruby ~> 2.4
+- Ruby >= 2.7
 
 **NOTE**: although most of the examples in this readme are Rails-specific, this gem could be used without Rails/ActiveSupport.
 

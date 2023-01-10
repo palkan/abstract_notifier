@@ -21,22 +21,6 @@ jobs:
         bundler: ["2"]
         norails: ["false"]
         include:
-        - ruby: "2.5"
-          gemfile: "gemfiles/rails42.gemfile"
-          bundler: "1"
-          norails: "false"
-        - ruby: "2.5"
-          gemfile: "gemfiles/rails5.gemfile"
-          bundler: "2"
-          norails: "false"
-        - ruby: "2.6"
-          gemfile: "gemfiles/rails5.gemfile"
-          bundler: "2"
-          norails: "true"
-        - ruby: "2.6"
-          gemfile: "gemfiles/rails5.gemfile"
-          bundler: "2"
-          norails: "false"
         - ruby: "2.7"
           gemfile: "gemfiles/railsmaster.gemfile"
           bundler: "2"

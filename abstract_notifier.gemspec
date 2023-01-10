@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.homepage = "https://github.com/palkan/abstract_notifier"
   spec.license = "MIT"
 
-  spec.required_ruby_version = ">= 2.4"
+  spec.required_ruby_version = ">= 2.7"
 
   spec.metadata = {
     "bug_tracker_uri" => "http://github.com/palkan/abstract_notifier/issues",
