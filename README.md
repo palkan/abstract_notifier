@@ -3,6 +3,9 @@
 
 # Abstract Notifier
 
+> [!IMPORTANT]
+> The project has been merged into [active_delivery](https://github.com/palkan/active_delivery). This repository is no longer maintained.
+
 Abstract Notifier is a tool which allows you to describe/model any text-based notifications (such as Push Notifications) the same way Action Mailer does for email notifications.
 
 Abstract Notifier (as the name states) doesn't provide any specific implementation for sending notifications. Instead, it offers tools to organize your notification-specific code and make it easily testable.
